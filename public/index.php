@@ -1,7 +1,7 @@
 <?php
 
 require '../helpers.php';
-require basePath('router.php');
+require basePath('Router.php');
 
 
 $uri = $_SERVER['REQUEST_URI'];
