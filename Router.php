@@ -89,7 +89,7 @@ class Router {
             //todo: remove logs
             // inspect(['uri' => $uri, 'method' => $method, 'route' => $route, 'routes' => $this->routes]);
 
-            $this->error();
         }
+        $this->error();
     }
 }
