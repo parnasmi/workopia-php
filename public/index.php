@@ -4,9 +4,6 @@ require '../helpers.php';
 require basePath('Router.php');
 require basePath('Database.php');
 
-// $config = require basePath('config/db.php');
-// $db = new Database($config);
-
 //Instantiating the router
 $router = new Router();
 
