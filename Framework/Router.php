@@ -5,11 +5,15 @@ namespace Framework;
 class Router {
     protected $routes = [];
 
-    public function regiterRoute(string $method, string $uri, string $controller): void {
+    public function regiterRoute(string $method, string $uri, string  $action): void {
+
+        list($controller, $controllerMethod) = explode('@', $action);
+
         $this->routes[] = [
             'method' => $method,
             'uri' => $uri,
-            'controller' => $controller
+            'controller' => $controller,
+            'controllerMethod' => $controllerMethod
         ];
     }
 
@@ -84,12 +88,16 @@ class Router {
     public function route(string $uri, string $method): void {
         foreach ($this->routes as $route) {
             if ($uri === $route['uri'] && $method === $route['method']) {
-                require basePath('App/' . $route['controller']);
+
+                //Extract Controller and controller method
+                $controller = 'App\\Controllers\\' . $route['controller'];
+                $controllerMethod = $route['controllerMethod'];
+
+                // Instantiate the controller and call the method;
+                $controllerInstance = new $controller();
+                $controllerInstance->$controllerMethod();
                 return;
             }
-            //todo: remove logs
-            // inspect(['uri' => $uri, 'method' => $method, 'route' => $route, 'routes' => $this->routes]);
-
         }
         $this->error();
     }
