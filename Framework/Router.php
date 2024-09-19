@@ -2,6 +2,8 @@
 
 namespace Framework;
 
+use App\Controllers\ErrorController;
+
 class Router {
     protected $routes = [];
 
@@ -85,20 +87,46 @@ class Router {
      * @return void;
      */
 
-    public function route(string $uri, string $method): void {
+    public function route(string $uri): void {
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+
         foreach ($this->routes as $route) {
-            if ($uri === $route['uri'] && $method === $route['method']) {
 
-                //Extract Controller and controller method
-                $controller = 'App\\Controllers\\' . $route['controller'];
-                $controllerMethod = $route['controllerMethod'];
+            //Split the current URI into segments
+            $uriSegments = explode('/', trim($uri, '/'));
 
-                // Instantiate the controller and call the method;
-                $controllerInstance = new $controller();
-                $controllerInstance->$controllerMethod();
-                return;
+            //Split the current route URI into segments
+            $routeSegments = explode('/', trim($route['uri'], '/'));
+
+            $match = true;
+
+            // Check if the number of segements matches
+
+            if (count($uriSegments) === count($routeSegments) && strtoupper($route['method'] === $requestMethod)) {
+                $params = [];
+
+                $match = true;
+
+                for ($i = 0; $i < count($uriSegments); $i++) {
+                    //If the uri's don't match and there is no param
+                    //12:54 minute
+                }
             }
+
+
+            // if ($uri === $route['uri'] && $method === $route['method']) {
+
+            //     //Extract Controller and controller method
+            //     $controller = 'App\\Controllers\\' . $route['controller'];
+            //     $controllerMethod = $route['controllerMethod'];
+
+            //     // Instantiate the controller and call the method;
+            //     $controllerInstance = new $controller();
+            //     $controllerInstance->$controllerMethod();
+            //     return;
+            // }
         }
-        $this->error();
+
+        ErrorController::notFound();
     }
 }

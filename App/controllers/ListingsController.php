@@ -12,6 +12,13 @@ class ListingsController {
         $this->db = new Database($config);
     }
 
+
+    /**
+     * Show all listings in listings page
+     *
+     * @return void
+     */
+
     public function index() {
         $listings = $this->db->query('SELECT * FROM listings')->fetchAll();
 
@@ -20,9 +27,20 @@ class ListingsController {
         ]);
     }
 
+    /**
+     * Show create listing page
+     *
+     * @return void
+     */
+
     public function create() {
         loadView('listings/create');
     }
+    /**
+     * Show single listing
+     *
+     * @return void
+     */
 
     public function show() {
         $id = $_GET['id'] ?? '';
