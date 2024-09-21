@@ -122,4 +122,49 @@ class ListingsController {
             exit;
         }
     }
+
+    public function destroy(array $params): void {
+        $id = $params['id'];
+
+        $params = [
+            "id" => $id
+        ];
+
+
+        $listing = $this->db->query('SELECT * FROM listings WHERE id=:id', $params)->fetch();
+
+
+        if (!$listing) {
+            ErrorController::notFound('Listing not found');
+        }
+        $this->db->query('DELETE FROM listings WHERE id=:id', $params);
+        $_SESSION['success_message'] = 'Listing has been successfully deleted.';
+        redirect('/listings');
+    }
+
+    /**
+     * Edit single listing
+     *
+     * @return void
+     */
+
+    public function edit(array $params) {
+        $id = $params['id'] ?? '';
+
+
+        $params = [
+            'id' => $id
+        ];
+
+        $listing = $this->db->query('SELECT * FROM listings WHERE id = :id', $params)->fetch();
+
+        if (!$listing) {
+            ErrorController::notFound('Listing does no exist');
+            return;
+        }
+
+        loadView('listings/edit', [
+            'listing' => $listing
+        ]);
+    }
 }
