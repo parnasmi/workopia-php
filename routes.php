@@ -1,7 +1,6 @@
 <?php
 
-$router->get('/', 'controllers/home.php');
-$router->get('/listings', 'controllers/listings/index.php');
-$router->get('/listing', 'controllers/listings/show.controller.php');
-$router->get('/listings/create', 'controllers/listings/create.php');
-$router->get('/404', 'controllers/error/404.php');
+$router->get('/', 'HomeController@index');
+$router->get('/listings', 'ListingsController@index');
+$router->get('/listings/create', 'ListingsController@create');
+$router->get('/listings/{id}', 'ListingsController@show');
