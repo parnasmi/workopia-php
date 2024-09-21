@@ -8,6 +8,7 @@
         <p class="text-center text-2xl mb-4">
             <?= $message ?>
         </p>
+        <a href="/listings" class="text-center block">Go to listings</a>
     </div>
 </section>
 

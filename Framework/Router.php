@@ -109,22 +109,27 @@ class Router {
 
                 for ($i = 0; $i < count($uriSegments); $i++) {
                     //If the uri's don't match and there is no param
-                    //12:54 minute
+                    if ($routeSegments[$i] !== $uriSegments[$i] && !preg_match('/\{(.+?)\}/', $routeSegments[$i])) {
+                        $match = false;
+                        break;
+                    }
+
+                    //todo: learn out there what does preg_match do?
+                    if (preg_match('/\{(.+?)\}/', $routeSegments[$i], $matches)) {
+                        $params[$matches[1]] = $uriSegments[$i];
+                    }
+                }
+
+                if ($match) {
+                    $controller = 'App\\Controllers\\' . $route['controller'];
+                    $controllerMethod = $route['controllerMethod'];
+
+                    // Instantiate the controller and call the method;
+                    $controllerInstance = new $controller();
+                    $controllerInstance->$controllerMethod($params);
+                    return;
                 }
             }
-
-
-            // if ($uri === $route['uri'] && $method === $route['method']) {
-
-            //     //Extract Controller and controller method
-            //     $controller = 'App\\Controllers\\' . $route['controller'];
-            //     $controllerMethod = $route['controllerMethod'];
-
-            //     // Instantiate the controller and call the method;
-            //     $controllerInstance = new $controller();
-            //     $controllerInstance->$controllerMethod();
-            //     return;
-            // }
         }
 
         ErrorController::notFound();
