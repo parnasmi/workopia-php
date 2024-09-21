@@ -74,3 +74,23 @@ function inspectAndDie(mixed $value) {
 function formatSalary(string $salary): string {
     return '$' . number_format(floatval($salary));
 }
+
+/**
+ * sanitize
+ *
+ * @param string $dirty
+ * @return string
+ */
+function sanitize(string $dirty): string {
+    return filter_var(trim($dirty), FILTER_SANITIZE_SPECIAL_CHARS);
+}
+
+/**
+ * redirect
+ *
+ * @param string $url
+ * @return void
+ */
+function redirect(string $url): void {
+    header("Location: {$url}");
+}

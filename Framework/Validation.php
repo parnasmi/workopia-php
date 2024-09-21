@@ -9,10 +9,10 @@ class Validation {
      *
      * @param string $value
      * @param integer $min
-     * @param integer $max
+     * @param float | int $max
      * @return bool
      */
-    public static function string(string $value, int $min = 1, int $max = INF) {
+    public static function string(string $value, int $min = 1, mixed $max = INF) {
         if (is_string($value)) {
             $value = trim($value);
             $length = strlen($value);
@@ -33,6 +33,13 @@ class Validation {
         return filter_var(trim($value), FILTER_VALIDATE_EMAIL);
     }
 
+    /**
+     * Compare 2 values to equality
+     *
+     * @param string $value1
+     * @param string $value2
+     * @return boolean
+     */
     public static function match(string $value1, string $value2): bool {
         return trim($value1) === trim($value2);
     }
