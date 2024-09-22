@@ -70,8 +70,38 @@ class UserController {
                 ]
             ]);
             exit;
-        } else {
-            echo 'Success';
         }
+
+        $params = [
+            'email' => $email
+        ];
+
+        $user = $this->db->query('SELECT * FROM users WHERE email = :email', $params)->fetch();
+
+        if ($user) {
+            $errors['email'] = 'That email exists';
+            loadView('users/register', [
+                'errors' => $errors,
+                'user' => [
+                    'name' => $name,
+                    'city' => $city,
+                    'email' => $email,
+                    'state' => $state,
+                ]
+            ]);
+            exit;
+        }
+
+        $payload = [
+            'name' => $name,
+            'city' => $city,
+            'email' => $email,
+            'state' => $state,
+            'password' => password_hash($password, PASSWORD_DEFAULT)
+        ];
+
+        $this->db->query('INSERT INTO users (name, city, email, state, password) VALUES (:name, :city, :email, :state, :password)', $payload);
+
+        redirect('/');
     }
 }
