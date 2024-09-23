@@ -63,7 +63,7 @@ class Session {
      *
      * @return void
      */
-    public function clearAll(): void {
+    public static function clearAll(): void {
         session_unset();
         session_destroy();
     }
