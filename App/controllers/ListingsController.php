@@ -120,6 +120,7 @@ class ListingsController {
 
             $query = "INSERT INTO listings ({$fields}) VALUES ({$values})";
             $this->db->query($query, $newListingData);
+            Session::setFlashMessage('success_message', 'Listing has been successfully created.');
             redirect('/listings');
             exit;
         }
@@ -141,13 +142,13 @@ class ListingsController {
         }
         //be able to delete only own listings
         if (!Guard::isOwner($listing->user_id)) {
-            $_SESSION['error_message'] = 'You are not authorized to delete this listing';
+            Session::setFlashMessage('error_message', 'You are not authorized to delete this listing');
             redirect('/listings/' . $listing->id);
             exit;
         }
 
         $this->db->query('DELETE FROM listings WHERE id=:id', $params);
-        $_SESSION['success_message'] = 'Listing has been successfully deleted.';
+        Session::setFlashMessage('success_message', 'Listing has been successfully deleted.');
         redirect('/listings');
     }
 
